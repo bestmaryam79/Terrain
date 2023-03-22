@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TextureTerrainGenerator : MonoBehaviour
+public class OptimizeTexture : MonoBehaviour
 {
-
+    // Variables to control the size and depth of the terrain
     public int width = 256;
     public int height = 256;
     public int depth = 20;
 
+
     public float scale = 20f;           // Scale of the terrain
     public float offsetX = 100f;        // Offset x-coordinate
     public float offsetY = 100f;        // Offset y-coordinate
-
 
     // Start is called before the first frame update
     void Start()
@@ -21,15 +21,17 @@ public class TextureTerrainGenerator : MonoBehaviour
         offsetX = Random.Range(0f, 9999f);
         offsetY = Random.Range(0f, 9999f);
 
-       s
+        
     }
+
+    // Generate the terrain and update it every frame
     void Update()
     {
-
         Terrain terrain = GetComponent<Terrain>();  //Getting the terrain component 
         terrain.terrainData = GenerateTerrain(terrain.terrainData);  // Generate the terrain
-
     }
+
+    // Generate the terrain
     TerrainData GenerateTerrain(TerrainData terrainData)
     {
         // Set the heightmap resolution and size of the terrain data
@@ -37,16 +39,19 @@ public class TextureTerrainGenerator : MonoBehaviour
         terrainData.size = new Vector3(width, depth, height);
 
         // Generate the heights of the terrain and set it to the terrain data
-        terrainData.SetHeights(0, 0, GenerateHeights());
+        float[,] heights = GenerateHeights();
+        terrainData.SetHeights(0, 0, heights);
 
         // Generate the texture and set it to the terrain data
+        float[,,] texture = GenerateTexture();
         terrainData.baseMapResolution = width + 1;
         terrainData.alphamapResolution = width + 1;
-        terrainData.SetAlphamaps(0, 0, GenerateTexture());
+        terrainData.SetAlphamaps(0, 0, texture);
 
         return terrainData;
     }
 
+    // Generate the heights of the terrain using Perlin noise
     float[,] GenerateHeights()
     {
         float[,] heights = new float[width, height];
@@ -63,47 +68,11 @@ public class TextureTerrainGenerator : MonoBehaviour
                 heights[x, y] = sample;
             }
         }
+
         return heights;
     }
 
-    /*
-    // Generate the terrain data
-    TerrainData GenerateTerrain(TerrainData terrainData)
-    {
-        // Set the heightmap resolution and size of the terrain data
-        terrainData.heightmapResolution = width + 1;
-        terrainData.size = new Vector3(width, depth, height);
-
-        // Generate the heights of the terrain and set it to the terrain data
-        terrainData.SetHeights(0, 0, GenerateHeights());
-
-
-        // Generate the texture and set it to the terrain data
-        terrainData.baseMapResolution = width + 1;
-        terrainData.alphamapResolution = width + 1;
-        terrainData.SetAlphamaps(0, 0, GenerateTexture());
-
-
-
-        return terrainData;
-    } */
-    // Generate the heights of the terrain
-
-
-    // Calculate the height at the given x and y coordinate
-   /* float CalculateHeight(int x, int y)
-    {
-        // Calculate the x and y coordinate based on the given scale and offset
-        float xCoord = (float)x / width * scale + offsetX;
-        float yCoord = (float)y / depth * scale + offsetY;
-
-        // Generate the height using Perlin noise and return it
-        return Mathf.PerlinNoise(xCoord, yCoord);
-   } */
-
-
-
-    // Generate the texture
+    // Generate the texture using Perlin noise
     float[,,] GenerateTexture()
     {
         float[,,] texture = new float[width, height, 2];
