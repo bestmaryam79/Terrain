@@ -431,8 +431,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64748c3e46ab2194ebb0249fdc364aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 256
-  height: 256
+  width: 612
+  height: 612
   depth: 13
   scale: 20
   offsetX: 100
@@ -449,3 +449,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3de40a3e2ba3554486ae2920976206e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  width: 256
+  height: 256
+  depth: 20
+  scale: 20
+  offsetX: 100
+  offsetY: 100
