@@ -3,7 +3,10 @@ guid: 64748c3e46ab2194ebb0249fdc364aa2
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - grassTexture: {fileID: 2800000, guid: 6dff70b1f69dbc640b854ad550b78c39, type: 3}
+  - dirtTexture: {fileID: 2800000, guid: eacec9cd0f31ea04b82121877a6cccaa, type: 3}
+  - rockTexture: {fileID: 2800000, guid: cb74fa1f447a9ed4baf1d1bce2326844, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

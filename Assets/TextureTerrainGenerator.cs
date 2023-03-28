@@ -14,6 +14,10 @@ public class TextureTerrainGenerator : MonoBehaviour
     public float offsetY = 100f;        // Offset y-coordinate
 
 
+    public Texture2D grassTexture;      // Grass texture
+    public Texture2D dirtTexture;       // Dirt texture
+    public Texture2D rockTexture;       // Rock texture
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +25,11 @@ public class TextureTerrainGenerator : MonoBehaviour
         offsetX = Random.Range(0f, 9999f);
         offsetY = Random.Range(0f, 9999f);
 
-       
+
     }
     void Update()
     {
-           
+
         Terrain terrain = GetComponent<Terrain>();  //Getting the terrain component 
         terrain.terrainData = GenerateTerrain(terrain.terrainData);  // Generate the terrain
 
@@ -91,23 +95,22 @@ public class TextureTerrainGenerator : MonoBehaviour
 
 
     // Calculate the height at the given x and y coordinate
-   /* float CalculateHeight(int x, int y)
-    {
-        // Calculate the x and y coordinate based on the given scale and offset
-        float xCoord = (float)x / width * scale + offsetX;
-        float yCoord = (float)y / depth * scale + offsetY;
+    /* float CalculateHeight(int x, int y)
+     {
+         // Calculate the x and y coordinate based on the given scale and offset
+         float xCoord = (float)x / width * scale + offsetX;
+         float yCoord = (float)y / depth * scale + offsetY;
 
-        // Generate the height using Perlin noise and return it
-        return Mathf.PerlinNoise(xCoord, yCoord);
-   } */
+         // Generate the height using Perlin noise and return it
+         return Mathf.PerlinNoise(xCoord, yCoord);
+    } */
 
 
 
     // Generate the texture
     float[,,] GenerateTexture()
     {
-        float[,,] texture = new float[width, height, 2];
-
+        float[,,] texture = new float[width, height, 3];
 
         // Loop through each x and y coordinate to generate the texture
         for (int x = 0; x < width; x++)
@@ -122,27 +125,43 @@ public class TextureTerrainGenerator : MonoBehaviour
                 float noise = Mathf.PerlinNoise(xCoord, yCoord);
 
                 // Set the texture based on the noise value
-                if (noise < 0.2f)
+                if (noise < 0.3f)
                 {
                     texture[x, y, 0] = 1f;
                     texture[x, y, 1] = 0f;
+                    texture[x, y, 2] = 0f; // set to grass texture
                 }
-                else if (noise < 0.5f)
+                else if (noise < 0.6f)
                 {
                     texture[x, y, 0] = 0f;
                     texture[x, y, 1] = 1f;
+                    texture[x, y, 2] = 0f; // set to dirt texture
                 }
                 else
                 {
-                    texture[x, y, 0] = 1f;
-                    texture[x, y, 1] = 1f;
+                    texture[x, y, 0] = 0f;
+                    texture[x, y, 1] = 0f;
+                    texture[x, y, 2] = 1f; // set to rock texture
                 }
             }
         }
 
+        // Apply the textures to the terrain
+        Terrain terrain = GetComponent<Terrain>();
+        terrain.terrainData.splatPrototypes = new SplatPrototype[]
+        {
+            new SplatPrototype() {texture = grassTexture},
+            new SplatPrototype() {texture = dirtTexture},
+            new SplatPrototype() {texture = rockTexture}
+        };
+
         return texture;
     }
 }
+
+
+
+
 
 
 
