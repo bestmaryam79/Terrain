@@ -70,42 +70,6 @@ public class TextureTerrainGenerator : MonoBehaviour
         return heights;
     }
 
-    /*
-    // Generate the terrain data
-    TerrainData GenerateTerrain(TerrainData terrainData)
-    {
-        // Set the heightmap resolution and size of the terrain data
-        terrainData.heightmapResolution = width + 1;
-        terrainData.size = new Vector3(width, depth, height);
-
-        // Generate the heights of the terrain and set it to the terrain data
-        terrainData.SetHeights(0, 0, GenerateHeights());
-
-
-        // Generate the texture and set it to the terrain data
-        terrainData.baseMapResolution = width + 1;
-        terrainData.alphamapResolution = width + 1;
-        terrainData.SetAlphamaps(0, 0, GenerateTexture());
-
-
-
-        return terrainData;
-    } */
-    // Generate the heights of the terrain
-
-
-    // Calculate the height at the given x and y coordinate
-    /* float CalculateHeight(int x, int y)
-     {
-         // Calculate the x and y coordinate based on the given scale and offset
-         float xCoord = (float)x / width * scale + offsetX;
-         float yCoord = (float)y / depth * scale + offsetY;
-
-         // Generate the height using Perlin noise and return it
-         return Mathf.PerlinNoise(xCoord, yCoord);
-    } */
-
-
 
     // Generate the texture
     float[,,] GenerateTexture()
@@ -148,12 +112,13 @@ public class TextureTerrainGenerator : MonoBehaviour
 
         // Apply the textures to the terrain
         Terrain terrain = GetComponent<Terrain>();
-        terrain.terrainData.splatPrototypes = new SplatPrototype[]
+        TerrainLayer[] terrainLayers = new TerrainLayer[]
         {
-            new SplatPrototype() {texture = grassTexture},
-            new SplatPrototype() {texture = dirtTexture},
-            new SplatPrototype() {texture = rockTexture}
+            new TerrainLayer() {diffuseTexture = grassTexture},
+            new TerrainLayer() {diffuseTexture = dirtTexture},
+            new TerrainLayer() {diffuseTexture = rockTexture}
         };
+        terrain.terrainData.terrainLayers = terrainLayers;
 
         return texture;
     }
@@ -243,3 +208,38 @@ void draw() {
   }
 } 
 */
+
+/*
+   // Generate the terrain data
+   TerrainData GenerateTerrain(TerrainData terrainData)
+   {
+       // Set the heightmap resolution and size of the terrain data
+       terrainData.heightmapResolution = width + 1;
+       terrainData.size = new Vector3(width, depth, height);
+
+       // Generate the heights of the terrain and set it to the terrain data
+       terrainData.SetHeights(0, 0, GenerateHeights());
+
+
+       // Generate the texture and set it to the terrain data
+       terrainData.baseMapResolution = width + 1;
+       terrainData.alphamapResolution = width + 1;
+       terrainData.SetAlphamaps(0, 0, GenerateTexture());
+
+
+
+       return terrainData;
+   } */
+// Generate the heights of the terrain
+
+
+// Calculate the height at the given x and y coordinate
+/* float CalculateHeight(int x, int y)
+ {
+     // Calculate the x and y coordinate based on the given scale and offset
+     float xCoord = (float)x / width * scale + offsetX;
+     float yCoord = (float)y / depth * scale + offsetY;
+
+     // Generate the height using Perlin noise and return it
+     return Mathf.PerlinNoise(xCoord, yCoord);
+} */
